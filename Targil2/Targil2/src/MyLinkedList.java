@@ -1,5 +1,6 @@
 import java.util.*;
 public class MyLinkedList {
+	static Scanner reader = new Scanner(System.in);
 	int node_Count = 0;
 	Node head = null;
 	static class Node{
@@ -59,21 +60,61 @@ public class MyLinkedList {
 		node_Count--;
 	}
 	public void RemoveNode(int index) {
+		//If the list is empty
 		if(node_Count == 0) {
 			System.out.println("The list is empty");
 			return;
 		}
+		
+		//If we exceeded the amount of nodes OR put a negative one
 		if( (index > node_Count) || (index <= 0)) {
 			System.out.println("Invalid Index Value");
 			return;
 		}
+		
+		//If the node count is 1 OR the index is 1 , then its the same case, so we can refer it to the next node
 		Node tail = head;
-		Node temp = head.next_Node;
-		for(int i = 0 ;i < index-1; i++) {
-			tail = temp;
-			temp = temp.next_Node;
+		if(node_Count == 1 || index == 1 ) { 
+				head = head.next_Node;
+				node_Count--;
+				return;
 		}
 		
+		//If the list amount is over 1 AND the index is in the middle of the list(Rest cases), then I do this
+		Node ind = head.next_Node;
+		Node front = ind.next_Node;
+		for(int i=1; i < index-1; i++) {
+			front = front.next_Node;
+			tail = tail.next_Node;
+		}
+		tail.next_Node = front;
+		node_Count--;
+	}
+	
+	public void PrintList() {
+		System.out.println("List-");
+		Node curr_Node = head;
+		while(curr_Node != null) {
+			System.out.println(curr_Node.value);
+			curr_Node = curr_Node.next_Node;
+		}
+	}
+	
+	public void Reverse() {
+		int list[];
+		Node temp = head;
+		list = new int[node_Count];
+		System.out.println("Reversed List-");
+		for(int i = 0; i < node_Count; i++) {
+			list[i] = temp.value;
+			temp = temp.next_Node;
+		}
+		for(int i = node_Count; i > 0; i--) {
+			System.out.println(list[i-1]);
+		}
+	}
+	
+	public void Prog() {
 		
 	}
 	
@@ -83,11 +124,18 @@ public class MyLinkedList {
 		Node n = new Node(6);
 		Node n2 = new Node(7);
 		Node n3 = new Node(8);
+		Node n4 = new Node(34);
+		Node n5 = new Node(16);
+		Node n6 = new Node(10);
 		l.addNode(n);
 		l.addNode(n2);
 		l.AddNode(n3,2);
-		l.RemoveNode();
+		l.addNode(n4);
+		l.addNode(n5);
+		l.AddNode(n6,2);
 		l.RemoveNode(1);
-		System.out.println(l.head.next_Node);
+		System.out.println(l.head.value);
+		l.PrintList();
+		l.Reverse();
 	}
 }
